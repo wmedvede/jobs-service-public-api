@@ -1,0 +1,35 @@
+{
+  "id": "b90678f4-95a9-4d1f-87c5-3fdb3fed7515",
+  "businessKey": "12-34-56",
+  "state": "TBD1",
+  "schedule": {
+    "type": "timer",
+    "startTime": "23/11/2022",
+    "repeatCount": 5,
+    "delay": 2,
+    "delayUnit": "HOURS"
+  },
+  "retry": {
+    "maxRetries": 0,
+    "delay": 100,
+    "delayUnit": "SECONDS",
+    "maxDuration": 0,
+    "durationUnit": null
+  },
+  "recipient": {
+    "type": "sink",
+    "payload": {
+      "specversion": "1.0",
+      "id": "bbe20c30-c82f-4079-b789-e476333addd3",
+      "source": "/sap/user-system",
+      "type": "user.created",
+      "datacontenttype": "application/json",
+      "data": {
+        "name": "Michael",
+        "surname": "Jackson"
+      }
+    },
+    "sinkUrl": "http://my-kogito-service.default.svc.cluster.local",
+    "contentMode": "binary"
+  }
+}

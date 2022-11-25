@@ -1,0 +1,32 @@
+{
+  "id": "f36bfee6-c67c-4fbc-b9e2-778da82467f8",
+  "businessKey": "12-34-56",
+  "state": "TBD1",
+  "schedule": {
+    "type": "timer",
+    "startTime": "23/11/2022",
+    "repeatCount": 5,
+    "delay": 2,
+    "delayUnit": "HOURS"
+  },
+  "retry": {
+    "maxRetries": 0,
+    "delay": 100,
+    "delayUnit": "SECONDS",
+    "maxDuration": 0,
+    "durationUnit": null
+  },
+  "recipient": {
+    "type": "http",
+    "payload": "PHVzZXI+PG5hbWU+TWljaGFlbDwvbmFtZT48c3VybmFtZT5KYWNrc29uPC9zdXJuYW1lPjwvdXNlcj4=",
+    "url": "http://example.report.server.com",
+    "method": "POST",
+    "headers": {
+      "Content-Type": "application/xml"
+    },
+    "queryParams": {
+      "param1": "value1",
+      "param2": "value2"
+    }
+  }
+}

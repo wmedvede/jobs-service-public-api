@@ -1,0 +1,9 @@
+{
+  "specversion": "1.0",
+  "type": "customer.bithday",
+  "source": "whatever",
+  "subject": "123",
+  "id": "A234-1234-1234",
+  "datacontenttype": "text/xml",
+  "data": "<customer id=\"22-55-66\" name=\"Michael Jacson\"/>"
+}
