@@ -13,7 +13,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 
 import org.kie.kogito.jobs.service.api.Job;
-import org.kie.kogito.jobs.service.api.SinkRecipient;
+import org.kie.kogito.jobs.service.api.sink.SinkRecipient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

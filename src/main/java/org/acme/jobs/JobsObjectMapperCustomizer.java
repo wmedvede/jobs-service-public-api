@@ -16,20 +16,25 @@
 
 package org.acme.jobs;
 
-import javax.inject.Singleton;
+import javax.enterprise.context.ApplicationScoped;
+
+import org.kie.kogito.jobs.service.api.RecipientDescriptor;
+import org.kie.kogito.jobs.service.api.RecipientDescriptorRegistry;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.jsontype.NamedType;
 
 import io.cloudevents.jackson.JsonFormat;
 import io.quarkus.jackson.ObjectMapperCustomizer;
 
-/**
- * Ensure the registration of the CloudEvent jackson module according to the Quarkus suggested procedure.
- */
-@Singleton
-public class CloudEventsCustomizer implements ObjectMapperCustomizer {
+@ApplicationScoped
+public class JobsObjectMapperCustomizer implements ObjectMapperCustomizer {
 
     public void customize(ObjectMapper mapper) {
         mapper.registerModule(JsonFormat.getCloudEventJacksonModule());
+        // subtype registration for the different available Recipient definitions.
+        for (RecipientDescriptor<?> descriptor : RecipientDescriptorRegistry.getInstance().getDescriptors()) {
+            mapper.registerSubtypes(new NamedType(descriptor.getType(), descriptor.getName()));
+        }
     }
 }
