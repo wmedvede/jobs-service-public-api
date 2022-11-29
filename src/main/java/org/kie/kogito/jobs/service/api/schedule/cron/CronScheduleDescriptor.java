@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-package org.kie.kogito.jobs.service.api.kafka;
+package org.kie.kogito.jobs.service.api.schedule.cron;
 
-import org.kie.kogito.jobs.service.api.RecipientDescriptor;
+import org.kie.kogito.jobs.service.api.ScheduleDescriptor;
 
-public class KafkaRecipientDescriptor implements RecipientDescriptor<KafkaRecipient> {
+public class CronScheduleDescriptor implements ScheduleDescriptor<CronSchedule> {
 
-    public static final String NAME = "kafka";
+    public static final String NAME = "cron";
 
     @Override
     public String getName() {
@@ -28,7 +28,7 @@ public class KafkaRecipientDescriptor implements RecipientDescriptor<KafkaRecipi
     }
 
     @Override
-    public Class<KafkaRecipient> getType() {
-        return KafkaRecipient.class;
+    public Class<CronSchedule> getType() {
+        return CronSchedule.class;
     }
 }

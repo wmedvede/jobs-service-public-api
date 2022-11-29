@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.kie.kogito.jobs.service.api.http;
+package org.kie.kogito.jobs.service.api.recipient.http;
 
 import java.util.HashMap;
 import java.util.Map;

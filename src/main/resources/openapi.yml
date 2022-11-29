@@ -12,14 +12,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/JobDef'
+              $ref: '#/components/schemas/Job'
       responses:
         "200":
           description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/JobDef'
+                $ref: '#/components/schemas/Job'
   /jobs/find:
     get:
       tags:
@@ -36,7 +36,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/JobDef'
+                $ref: '#/components/schemas/Job'
   /jobs/{id}:
     get:
       tags:
@@ -53,24 +53,55 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/JobDef'
+                $ref: '#/components/schemas/Job'
 components:
   schemas:
-    CronScheduleDef:
+    Recipient:
+      title: Recipient title created by API!
+      description: Recipient description created by API!
+      required:
+        - type
+      type: object
+      properties:
+        type:
+          type: string
+        payload:
+          type: object
+      discriminator:
+        propertyName: type
+        mapping:
+          kafka: '#/components/schemas/KafkaRecipient'
+          http: '#/components/schemas/HttpRecipient'
+          sink: '#/components/schemas/SinkRecipient'
+    Schedule:
+      title: Schedule title created by API!
+      description: Schedule description created by API!
+      required:
+        - type
+      type: object
+      properties:
+        type:
+          type: string
+      discriminator:
+        propertyName: type
+        mapping:
+          cron: '#/components/schemas/CronSchedule'
+          timer: '#/components/schemas/TimerSchedule'
+    CronSchedule:
       description: Schedule definition to execute a job on a cron based configuration
       type: object
       allOf:
-        - $ref: '#/components/schemas/ScheduleDef'
+        - $ref: '#/components/schemas/Schedule'
       properties:
         expression:
           type: string
         timeZone:
           type: string
-    HttpRecipientDef:
+    HttpRecipient:
       description: Recipient definition to execute a job with a http request
       type: object
       allOf:
-        - $ref: '#/components/schemas/RecipientDef'
+        - $ref: '#/components/schemas/Recipient'
       properties:
         url:
           type: string
@@ -84,7 +115,7 @@ components:
           type: object
           additionalProperties:
             type: string
-    JobDef:
+    Job:
       description: Defines a job that can be managed by the Jobs Service
       type: object
       properties:
@@ -93,18 +124,18 @@ components:
         businessKey:
           type: string
         state:
-          $ref: '#/components/schemas/StateDef'
+          $ref: '#/components/schemas/State'
         schedule:
-          $ref: '#/components/schemas/ScheduleDef'
+          $ref: '#/components/schemas/Schedule'
         retry:
-          $ref: '#/components/schemas/RetryDef'
+          $ref: '#/components/schemas/Retry'
         recipient:
-          $ref: '#/components/schemas/RecipientDef'
-    KafkaRecipientDef:
+          $ref: '#/components/schemas/Recipient'
+    KafkaRecipient:
       description: Recipient definition to execute a job with a kafka message
       type: object
       allOf:
-        - $ref: '#/components/schemas/RecipientDef'
+        - $ref: '#/components/schemas/Recipient'
       properties:
         bootstrapServers:
           type: string
@@ -114,22 +145,7 @@ components:
           type: object
           additionalProperties:
             type: string
-    RecipientDef:
-      required:
-        - type
-      type: object
-      properties:
-        type:
-          type: string
-        payload:
-          type: object
-      discriminator:
-        propertyName: type
-        mapping:
-          http: '#/components/schemas/HttpRecipientDef'
-          kafka: '#/components/schemas/KafkaRecipientDef'
-          sink: '#/components/schemas/SinkRecipientDef'
-    RetryDef:
+    Retry:
       description: The retry configuration establishes the number of times a failing
         Job execution must be retried before it’s considered as FAILED
       type: object
@@ -141,43 +157,31 @@ components:
           format: int64
           type: integer
         delayUnit:
-          $ref: '#/components/schemas/TemporalUnitDef'
+          $ref: '#/components/schemas/TemporalUnit'
         maxDuration:
           format: int64
           type: integer
         durationUnit:
-          $ref: '#/components/schemas/TemporalUnitDef'
-    ScheduleDef:
-      required:
-        - type
-      type: object
-      properties:
-        type:
-          type: string
-      discriminator:
-        propertyName: type
-        mapping:
-          cron: '#/components/schemas/CronScheduleDef'
-          timer: '#/components/schemas/TimerScheduleDef'
-    SinkRecipientDef:
+          $ref: '#/components/schemas/TemporalUnit'
+    SinkRecipient:
       description: Recipient definition to execute a job with a cloud event on a knative
         sink
       type: object
       allOf:
-        - $ref: '#/components/schemas/RecipientDef'
+        - $ref: '#/components/schemas/Recipient'
       properties:
         sinkUrl:
           type: string
         contentMode:
           type: string
-    StateDef:
+    State:
       description: Available states for a Job
       enum:
         - TBD1
         - TBD2
         - TBD3
       type: string
-    TemporalUnitDef:
+    TemporalUnit:
       enum:
         - MILLIS
         - SECONDS
@@ -185,11 +189,11 @@ components:
         - HOURS
         - DAYS
       type: string
-    TimerScheduleDef:
+    TimerSchedule:
       description: Schedule definition to execute a job on a timer based configuration
       type: object
       allOf:
-        - $ref: '#/components/schemas/ScheduleDef'
+        - $ref: '#/components/schemas/Schedule'
       properties:
         startTime:
           type: string
@@ -200,4 +204,4 @@ components:
           format: int64
           type: integer
         delayUnit:
-          $ref: '#/components/schemas/TemporalUnitDef'
+          $ref: '#/components/schemas/TemporalUnit'

@@ -16,10 +16,9 @@
 
 package org.kie.kogito.jobs.service.api;
 
-public enum TemporalUnit {
-    MILLIS,
-    SECONDS,
-    MINUTES,
-    HOURS,
-    DAYS
+public interface ScheduleDescriptor<S extends Schedule> extends Descriptor {
+
+    String getName();
+
+    Class<S> getType();
 }

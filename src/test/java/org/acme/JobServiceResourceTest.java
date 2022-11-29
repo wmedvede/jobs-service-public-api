@@ -16,9 +16,10 @@ import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.junit.jupiter.api.Test;
 import org.kie.kogito.jobs.service.api.*;
-import org.kie.kogito.jobs.service.api.http.HttpRecipient;
-import org.kie.kogito.jobs.service.api.kafka.KafkaRecipient;
-import org.kie.kogito.jobs.service.api.sink.SinkRecipient;
+import org.kie.kogito.jobs.service.api.recipient.http.HttpRecipient;
+import org.kie.kogito.jobs.service.api.recipient.kafka.KafkaRecipient;
+import org.kie.kogito.jobs.service.api.recipient.sink.SinkRecipient;
+import org.kie.kogito.jobs.service.api.schedule.timer.TimerSchedule;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

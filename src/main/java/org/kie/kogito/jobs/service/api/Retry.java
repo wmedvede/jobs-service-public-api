@@ -2,7 +2,7 @@ package org.kie.kogito.jobs.service.api;
 
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 
-@Schema(name = "RetryDef", description = "The retry configuration establishes the number of times a failing Job execution must be retried before it’s considered as FAILED")
+@Schema(description = "The retry configuration establishes the number of times a failing Job execution must be retried before it’s considered as FAILED")
 public class Retry {
 
     private int maxRetries;

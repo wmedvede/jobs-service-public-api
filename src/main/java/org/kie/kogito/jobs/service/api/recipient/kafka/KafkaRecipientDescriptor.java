@@ -14,12 +14,21 @@
  * limitations under the License.
  */
 
-package org.kie.kogito.jobs.service.api;
+package org.kie.kogito.jobs.service.api.recipient.kafka;
 
-public enum TemporalUnit {
-    MILLIS,
-    SECONDS,
-    MINUTES,
-    HOURS,
-    DAYS
+import org.kie.kogito.jobs.service.api.RecipientDescriptor;
+
+public class KafkaRecipientDescriptor implements RecipientDescriptor<KafkaRecipient> {
+
+    public static final String NAME = "kafka";
+
+    @Override
+    public String getName() {
+        return NAME;
+    }
+
+    @Override
+    public Class<KafkaRecipient> getType() {
+        return KafkaRecipient.class;
+    }
 }

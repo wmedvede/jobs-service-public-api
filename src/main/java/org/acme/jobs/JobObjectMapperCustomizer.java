@@ -18,8 +18,7 @@ package org.acme.jobs;
 
 import javax.enterprise.context.ApplicationScoped;
 
-import org.kie.kogito.jobs.service.api.RecipientDescriptor;
-import org.kie.kogito.jobs.service.api.RecipientDescriptorRegistry;
+import org.kie.kogito.jobs.service.api.*;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.jsontype.NamedType;
@@ -28,12 +27,16 @@ import io.cloudevents.jackson.JsonFormat;
 import io.quarkus.jackson.ObjectMapperCustomizer;
 
 @ApplicationScoped
-public class JobsObjectMapperCustomizer implements ObjectMapperCustomizer {
+public class JobObjectMapperCustomizer implements ObjectMapperCustomizer {
 
     public void customize(ObjectMapper mapper) {
         mapper.registerModule(JsonFormat.getCloudEventJacksonModule());
         // subtype registration for the different available Recipient definitions.
         for (RecipientDescriptor<?> descriptor : RecipientDescriptorRegistry.getInstance().getDescriptors()) {
+            mapper.registerSubtypes(new NamedType(descriptor.getType(), descriptor.getName()));
+        }
+        // subtype registration for the different available Schedule definitions.
+        for (ScheduleDescriptor<?> descriptor : ScheduleDescriptorRegistry.getInstance().getDescriptors()) {
             mapper.registerSubtypes(new NamedType(descriptor.getType(), descriptor.getName()));
         }
     }

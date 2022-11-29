@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.kie.kogito.jobs.service.api.kafka;
+package org.kie.kogito.jobs.service.api.recipient.kafka;
 
 import java.util.HashMap;
 import java.util.Map;

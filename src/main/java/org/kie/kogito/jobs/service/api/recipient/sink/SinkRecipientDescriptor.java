@@ -14,27 +14,21 @@
  * limitations under the License.
  */
 
-package org.kie.kogito.jobs.service.api;
+package org.kie.kogito.jobs.service.api.recipient.sink;
 
-public class JobLookupKey {
+import org.kie.kogito.jobs.service.api.RecipientDescriptor;
 
-    private String id;
-    private String businessKey;
+public class SinkRecipientDescriptor implements RecipientDescriptor<SinkRecipient> {
 
-    private JobLookupKey() {
-        // marshalling constructor.
+    public static final String NAME = "sink";
+
+    @Override
+    public String getName() {
+        return NAME;
     }
 
-    private JobLookupKey(String id, String businessKey) {
-        this.id = id;
-        this.businessKey = businessKey;
-    }
-
-    public static JobLookupKey fromId(String id) {
-        return new JobLookupKey(id, null);
-    }
-
-    public static JobLookupKey fromBusinessKey(String businessKey) {
-        return new JobLookupKey(null, businessKey);
+    @Override
+    public Class<SinkRecipient> getType() {
+        return SinkRecipient.class;
     }
 }

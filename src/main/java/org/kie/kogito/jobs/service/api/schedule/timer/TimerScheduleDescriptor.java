@@ -14,12 +14,21 @@
  * limitations under the License.
  */
 
-package org.kie.kogito.jobs.service.api;
+package org.kie.kogito.jobs.service.api.schedule.timer;
 
-public enum TemporalUnit {
-    MILLIS,
-    SECONDS,
-    MINUTES,
-    HOURS,
-    DAYS
+import org.kie.kogito.jobs.service.api.ScheduleDescriptor;
+
+public class TimerScheduleDescriptor implements ScheduleDescriptor<TimerSchedule> {
+
+    public static final String NAME = "timer";
+
+    @Override
+    public String getName() {
+        return NAME;
+    }
+
+    @Override
+    public Class<TimerSchedule> getType() {
+        return TimerSchedule.class;
+    }
 }

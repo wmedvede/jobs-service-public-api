@@ -2,10 +2,10 @@ package org.kie.kogito.jobs.service.api;
 
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 
-@Schema(name = "JobDef", description = "Defines a job that can be managed by the Jobs Service")
+@Schema(description = "Defines a job that can be managed by the Jobs Service")
 public class Job {
 
-    @Schema(name = "StateDef", description = "Available states for a Job")
+    @Schema(description = "Available states for a Job")
     public enum State {
         TBD1,
         TBD2,

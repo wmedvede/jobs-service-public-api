@@ -16,34 +16,15 @@
 
 package org.kie.kogito.jobs.service.api;
 
-import java.util.LinkedHashSet;
-import java.util.ServiceLoader;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-public final class RecipientDescriptorRegistry {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(RecipientDescriptorRegistry.class);
-    private final LinkedHashSet<RecipientDescriptor<?>> descriptors = new LinkedHashSet<>();
+public final class RecipientDescriptorRegistry extends AbstractDescriptorRegistry<RecipientDescriptor> {
 
     private static final RecipientDescriptorRegistry INSTANCE = new RecipientDescriptorRegistry();
 
     private RecipientDescriptorRegistry() {
-        LOGGER.debug("Loading recipient descriptor registry");
-        final ServiceLoader<RecipientDescriptor> loader = ServiceLoader.load(RecipientDescriptor.class);
-        loader.iterator().forEachRemaining(descriptor -> {
-            LOGGER.debug("adding -> ({},{}) to registry", descriptor.getName(), descriptor.getType());
-            descriptors.add(descriptor);
-        });
-        LOGGER.debug("total descriptors: {}", descriptors.size());
+        super(RecipientDescriptor.class);
     }
 
     public static RecipientDescriptorRegistry getInstance() {
         return INSTANCE;
-    }
-
-    public LinkedHashSet<RecipientDescriptor<?>> getDescriptors() {
-        return descriptors;
     }
 }

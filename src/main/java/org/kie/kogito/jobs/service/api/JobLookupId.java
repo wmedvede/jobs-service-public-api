@@ -14,32 +14,35 @@
  * limitations under the License.
  */
 
-package org.kie.kogito.jobs.service.api.event;
+package org.kie.kogito.jobs.service.api;
 
-import org.kie.kogito.jobs.service.api.JobLookupId;
+public class JobLookupId {
 
-public class DeleteJobEvent extends JobCloudEvent<JobLookupId> {
+    private String id;
+    private String businessKey;
 
-    public static final String TYPE = "job.delete";
-
-    public DeleteJobEvent() {
+    private JobLookupId() {
         // marshalling constructor.
-        setType(TYPE);
     }
 
-    public static Builder builder() {
-        return new Builder(new DeleteJobEvent());
+    private JobLookupId(String id, String businessKey) {
+        this.id = id;
+        this.businessKey = businessKey;
     }
 
-    public static class Builder extends AbstractJobCloudEventBuilder<Builder, JobLookupId, DeleteJobEvent> {
+    public String getId() {
+        return id;
+    }
 
-        private Builder(DeleteJobEvent event) {
-            super(event);
-        }
+    public String getBusinessKey() {
+        return businessKey;
+    }
 
-        public Builder lookupId(JobLookupId lookupId) {
-            event.setData(lookupId);
-            return this;
-        }
+    public static JobLookupId fromId(String id) {
+        return new JobLookupId(id, null);
+    }
+
+    public static JobLookupId fromBusinessKey(String businessKey) {
+        return new JobLookupId(null, businessKey);
     }
 }

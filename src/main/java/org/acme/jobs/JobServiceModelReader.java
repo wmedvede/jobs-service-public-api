@@ -23,14 +23,17 @@ import org.eclipse.microprofile.openapi.models.media.Discriminator;
 import org.eclipse.microprofile.openapi.models.media.Schema;
 import org.kie.kogito.jobs.service.api.RecipientDescriptor;
 import org.kie.kogito.jobs.service.api.RecipientDescriptorRegistry;
+import org.kie.kogito.jobs.service.api.ScheduleDescriptor;
+import org.kie.kogito.jobs.service.api.ScheduleDescriptorRegistry;
 
-public class JobsServiceModelReader implements OASModelReader {
+public class JobServiceModelReader implements OASModelReader {
 
     @Override
     public OpenAPI buildModel() {
         return OASFactory.createOpenAPI()
                 .components(OASFactory.createComponents()
-                        .addSchema("Recipient", buildRecipientSchema()));
+                        .addSchema("Recipient", buildRecipientSchema())
+                        .addSchema("Schedule", buildScheduleSchema()));
     }
 
     private Schema buildRecipientSchema() {
@@ -38,8 +41,20 @@ public class JobsServiceModelReader implements OASModelReader {
                 .description("Recipient description created by API!")
                 .title("Recipient title created by API!");
         Discriminator discriminator = OASFactory.createDiscriminator().propertyName("type");
-        for (RecipientDescriptor<?> recipientDescriptor : RecipientDescriptorRegistry.getInstance().getDescriptors()) {
-            discriminator.addMapping(recipientDescriptor.getName(), buildLocalSchemaMapping(recipientDescriptor.getType().getSimpleName()));
+        for (RecipientDescriptor<?> descriptor : RecipientDescriptorRegistry.getInstance().getDescriptors()) {
+            discriminator.addMapping(descriptor.getName(), buildLocalSchemaMapping(descriptor.getType().getSimpleName()));
+        }
+        schema.discriminator(discriminator);
+        return schema;
+    }
+
+    private Schema buildScheduleSchema() {
+        Schema schema = OASFactory.createSchema()
+                .description("Schedule description created by API!")
+                .title("Schedule title created by API!");
+        Discriminator discriminator = OASFactory.createDiscriminator().propertyName("type");
+        for (ScheduleDescriptor<?> descriptor : ScheduleDescriptorRegistry.getInstance().getDescriptors()) {
+            discriminator.addMapping(descriptor.getName(), buildLocalSchemaMapping(descriptor.getType().getSimpleName()));
         }
         schema.discriminator(discriminator);
         return schema;

@@ -14,21 +14,17 @@
  * limitations under the License.
  */
 
-package org.kie.kogito.jobs.service.api.sink;
+package org.kie.kogito.jobs.service.api;
 
-import org.kie.kogito.jobs.service.api.RecipientDescriptor;
+public final class ScheduleDescriptorRegistry extends AbstractDescriptorRegistry<ScheduleDescriptor> {
 
-public class SinkRecipientDescriptor implements RecipientDescriptor<SinkRecipient> {
+    private static final ScheduleDescriptorRegistry INSTANCE = new ScheduleDescriptorRegistry();
 
-    public static final String NAME = "sink";
-
-    @Override
-    public String getName() {
-        return NAME;
+    private ScheduleDescriptorRegistry() {
+        super(ScheduleDescriptor.class);
     }
 
-    @Override
-    public Class<SinkRecipient> getType() {
-        return SinkRecipient.class;
+    public static ScheduleDescriptorRegistry getInstance() {
+        return INSTANCE;
     }
 }

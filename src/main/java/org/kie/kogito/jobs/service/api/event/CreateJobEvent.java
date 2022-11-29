@@ -20,10 +20,31 @@ import org.kie.kogito.jobs.service.api.Job;
 
 public class CreateJobEvent extends JobCloudEvent<Job> {
 
-    private static final String JOB_CREATE = "job.create";
+    public static final String TYPE = "job.create";
 
     public CreateJobEvent() {
         // marshalling constructor.
-        setType(JOB_CREATE);
+        setType(TYPE);
+    }
+
+    @Override
+    public String toString() {
+        return "CreateJobEvent{} " + super.toString();
+    }
+
+    public static Builder builder() {
+        return new Builder(new CreateJobEvent());
+    }
+
+    public static class Builder extends AbstractJobCloudEventBuilder<Builder, Job, CreateJobEvent> {
+
+        private Builder(CreateJobEvent current) {
+            super(current);
+        }
+
+        public Builder job(Job job) {
+            event.setData(job);
+            return cast();
+        }
     }
 }

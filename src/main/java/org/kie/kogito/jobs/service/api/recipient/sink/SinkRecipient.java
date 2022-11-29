@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.kie.kogito.jobs.service.api.sink;
+package org.kie.kogito.jobs.service.api.recipient.sink;
 
 import io.cloudevents.CloudEvent;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
