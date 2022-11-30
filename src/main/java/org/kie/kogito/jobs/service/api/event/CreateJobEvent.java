@@ -28,6 +28,12 @@ public class CreateJobEvent extends JobCloudEvent<Job> {
     }
 
     @Override
+    public void setType(String type) {
+        assertExpectedType(type, TYPE);
+        super.setType(type);
+    }
+
+    @Override
     public String toString() {
         return "CreateJobEvent{} " + super.toString();
     }

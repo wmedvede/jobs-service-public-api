@@ -28,6 +28,8 @@ import org.kie.kogito.jobs.service.api.ScheduleDescriptorRegistry;
 
 public class JobServiceModelReader implements OASModelReader {
 
+    private static final String TYPE_PROPERTY_NAME = "type";
+
     @Override
     public OpenAPI buildModel() {
         return OASFactory.createOpenAPI()
@@ -37,30 +39,36 @@ public class JobServiceModelReader implements OASModelReader {
     }
 
     private Schema buildRecipientSchema() {
-        Schema schema = OASFactory.createSchema()
+        Schema schema = buildSchemaWithDiscriminator(TYPE_PROPERTY_NAME)
                 .description("Recipient description created by API!")
                 .title("Recipient title created by API!");
-        Discriminator discriminator = OASFactory.createDiscriminator().propertyName("type");
+        Discriminator discriminator = schema.getDiscriminator();
         for (RecipientDescriptor<?> descriptor : RecipientDescriptorRegistry.getInstance().getDescriptors()) {
-            discriminator.addMapping(descriptor.getName(), buildLocalSchemaMapping(descriptor.getType().getSimpleName()));
+            discriminator.addMapping(descriptor.getName(), buildLocalSchemaRef(descriptor.getType().getSimpleName()));
         }
         schema.discriminator(discriminator);
         return schema;
     }
 
     private Schema buildScheduleSchema() {
-        Schema schema = OASFactory.createSchema()
+        Schema schema = buildSchemaWithDiscriminator(TYPE_PROPERTY_NAME)
                 .description("Schedule description created by API!")
                 .title("Schedule title created by API!");
-        Discriminator discriminator = OASFactory.createDiscriminator().propertyName("type");
+        Discriminator discriminator = schema.getDiscriminator();
         for (ScheduleDescriptor<?> descriptor : ScheduleDescriptorRegistry.getInstance().getDescriptors()) {
-            discriminator.addMapping(descriptor.getName(), buildLocalSchemaMapping(descriptor.getType().getSimpleName()));
+            discriminator.addMapping(descriptor.getName(), buildLocalSchemaRef(descriptor.getType().getSimpleName()));
         }
-        schema.discriminator(discriminator);
         return schema;
     }
 
-    private static String buildLocalSchemaMapping(String name) {
+    private static Schema buildSchemaWithDiscriminator(String discriminatorPropertyName) {
+        return OASFactory.createSchema()
+                .addProperty(discriminatorPropertyName, OASFactory.createSchema().type(Schema.SchemaType.STRING))
+                .addRequired(discriminatorPropertyName)
+                .discriminator(OASFactory.createDiscriminator().propertyName(discriminatorPropertyName));
+    }
+
+    private static String buildLocalSchemaRef(String name) {
         String template = "#/components/schemas/%s";
         return String.format(template, name);
     }

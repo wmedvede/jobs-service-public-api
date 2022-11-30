@@ -27,6 +27,12 @@ public class DeleteJobEvent extends JobCloudEvent<JobLookupId> {
         setType(TYPE);
     }
 
+    @Override
+    public void setType(String type) {
+        assertExpectedType(type, TYPE);
+        super.setType(type);
+    }
+
     public static Builder builder() {
         return new Builder(new DeleteJobEvent());
     }
